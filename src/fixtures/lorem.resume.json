@@ -1,0 +1,169 @@
+{
+  "basics": {
+      "name": "MC Fluff NStuff",
+      "label": "Very Professional Title",
+      "image": "https://placekitten.com/300/300",
+      "email": "jsonresume@example.com",
+      "phone": "212-555-1212",
+      "url": "https://example.com",
+      "pronouns": "they/them",
+      "summary": "Cat ipsum dolor sit amet, be the most annoying cat that you can, and, knock everything off the table but commence midnight zoomies. Scratch at fleas, meow until belly rubs, hide behind curtain when vacuum cleaner is on scratch strangers and poo on owners food you call this cat food chirp at birds, decide to want nothing to do with my owner today yet gnaw the corn cob so chase the pig around the house.",
+      "location": {
+          "address": "1234 Street Lane",
+          "postalCode": "10001",
+          "city": "NYC",
+          "countryCode": "US",
+          "region": "NorthEast"
+      },
+      "profiles": [
+          {
+              "network": "MySpace",
+              "username": "user12345678",
+              "url": "https://myspace.com/user12345678"
+          },
+          {
+              "network": "friendster",
+              "username": "meow_user_Af1544erxr",
+              "url": "https://friendster.com/meow_user_Af1544erxr"
+          }
+      ]
+  },
+  "skills": [
+      {
+          "name": "Skill One",
+          "level": "Amazing",
+          "keywords": [
+              "Things", "Stuff", "Activities"
+          ]
+      },
+      {
+          "name": "Skill Two",
+          "level": "Fantastical",
+          "keywords": [
+              "Meow", "Plow", "Pazow", "Cacao"
+          ]
+      }
+  ],
+  "work": [
+      {
+          "company": "Company ABC",
+          "location": "",
+          "description": "",
+          "position": "Position or role",
+          "website": "http://company.example.com",
+          "startDate": "2020-03",
+          "endDate": "2024-03",
+          "summary": "Cat ipsum dolor sit amet, eat fish on floor. Inspect anything brought into the house scratch at fleas, meow until belly rubs, hide behind curtain when vacuum cleaner is on scratch strangers and poo on owners food so hiding behind the couch until lured out by a feathery toy. Pooping rainbow while flying in a toasted bread costume in space. Fall over dead (not really but gets sypathy) go crazy with excitement when plates are clanked together signalling the arrival of cat food and do doodoo in the litter-box, clickityclack on the piano, be frumpygrumpy, for stinky cat hiiiiiiiiii feed me now. Slap owner's face at 5am until human fills food dish paw at your fat belly yet missing until dinner time, or cat fur is the new black and hunt anything. ",
+          "highlights": [
+              "Highlight one",
+              "Highlight two"
+          ]
+      }
+  ],
+  "projects": [
+      {
+          "name": "Project ABC",
+          "description": "The project is Car rides are evil swat turds around the house poop on the floor, break a planter, sprint, eat own hair, vomit hair, hiss, chirp at birds, eat a squirrel, hide from fireworks, lick toe beans, attack christmas tree. Chase dog then run away allways wanting food. Fat baby cat best buddy little guy stare at the wall, play with food and get confused by dust for stare at imaginary bug. ",
+          "highlights": [
+              "Thing that happened one",
+              "Highlighted thing two"
+          ],
+          "keywords": [
+              "Keyword-a",
+              "Keyword-b"
+          ],
+          "startDate": "2024-01",
+          "endDate": "2024-05",
+          "website": "https://project.example.com",
+          "roles": [
+              "Breathing",
+              "Being"
+          ],
+          "entity": "Entity ABC",
+          "type": "Open Source"
+      }
+  ],
+  "volunteer": [
+      {
+          "organization": "Volunteer Organization",
+          "position": "Unpaid Position",
+          "website": "http://volunteer.example.com",
+          "startDate": "2024-01",
+          "endDate": "2024-04",
+          "summary": "Cat ipsum dolor sit amet, eat fish on floor. Cat not kitten around . Car rides are evil swat turds around the house poop on the floor, break a planter, sprint, eat own hair, vomit hair, hiss, chirp at birds, eat a squirrel, hide from fireworks, lick toe beans, attack christmas tree. Chase dog then run away allways wanting food. Fat baby cat best buddy little guy stare at the wall, play with food and get confused by dust for stare at imaginary bug. ",
+          "highlights": [
+              "Highlight abc",
+              "Highlight xyz"
+          ]
+      }
+  ],
+  "education": [
+      {
+          "institution": "School of Things and Stuff",
+          "area": "Things",
+          "studyType": "Masters",
+          "startDate": "2016-08",
+          "endDate": "",
+          "gpa": "4.5",
+          "courses": [
+              "Course one",
+              "Course two"
+          ]
+      }
+  ],
+  "awards": [
+      {
+          "title": "The Best at the Thing",
+          "date": "2024-02",
+          "awarder": "The Award Warehouse",
+          "summary": "Cat ipsum dolor sit amet, be the most annoying cat that you can, and, knock everything off the table but commence midnight zoomies. Scratch at fleas, meow until belly rubs, hide behind curtain when vacuum cleaner is on scratch strangers and poo on owners food you call this cat food chirp at birds, decide to want nothing to do with my owner today yet gnaw the corn cob so chase the pig around the house."
+      }
+  ],
+  "publications": [
+      {
+          "name": "How I wrote fake content and used it in JSON Resume",
+          "publisher": "The Fake Meow Times",
+          "releaseDate": "2024-05",
+          "website": "https://publisher.example.com",
+          "summary": "Cat ipsum dolor sit amet, eat fish on floor. Inspect anything brought into the house scratch at fleas, meow until belly rubs, hide behind curtain when vacuum cleaner is on scratch strangers and poo on owners food so hiding behind the couch until lured out by a feathery toy."
+      }
+  ],
+  "languages": [
+      {
+          "language": "English",
+          "fluency": "Native"
+      },
+      {
+        "language": "Gibberish",
+        "fluency": "[inaudible mumbling]"
+      },
+      {
+        "language": "Cat",
+        "fluency": "tolerated"
+      }
+  ],
+  "interests": [
+      {
+          "name": "I like things",
+          "keywords": [
+              "Like stuff",
+              "Like things"
+          ]
+      }
+  ],
+  "references": [
+      {
+          "name": "John Doe",
+          "reference": "Fall over dead (not really but gets sypathy) go crazy with excitement when plates are clanked together signalling the arrival of cat food and do doodoo in the litter-box, clickityclack on the piano, be frumpygrumpy, for stinky cat hiiiiiiiiii feed me now. "
+      },
+      {
+          "name": "Jane Doe",
+          "reference": "I show my fluffy belly but it's a trap! if you pet it i will tear up your hand throwup on your pillow. Stare at ceiling yowling nonstop the whole night i shredded your linens for you i cry and cry and cry unless you pet me, and then maybe i cry just for fun. Cat not kitten around ."
+      }
+  ],
+  "meta": {
+      "canonical": "",
+      "version": "",
+      "lastModified": ""
+  }
+}
