@@ -72,6 +72,7 @@
     "storydocker-utilities": "^0.0.21",
     "vite": "5.2.11",
     "vite-plugin-static-copy": "^1.0.4",
+    "wc-storybook-helpers": "^2.0.2",
     "yaml": "^2.4.2"
   },
   "customElements": "custom-elements.json",

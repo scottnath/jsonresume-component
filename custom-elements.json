@@ -138,51 +138,70 @@
           "members": [
             {
               "kind": "field",
-              "name": "_stylesGenerate"
+              "name": "_stylesGenerate",
+              "description": "Generates a `style` tag with variable component styles",
+              "privacy": "private"
             },
             {
               "kind": "field",
-              "name": "_resumeSection"
+              "name": "_resumeSection",
+              "description": "Returns a section of a resume",
+              "parameters": [
+                {
+                  "description": "name of a JSON Resume section",
+                  "name": "section",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "description": "content for that section only",
+                  "name": "content",
+                  "type": {
+                    "text": "object"
+                  }
+                }
+              ],
+              "privacy": "private"
             },
             {
               "kind": "field",
               "name": "_resumeGenerate",
+              "description": "Generate the resume HTML with the <style> element",
               "parameters": [
                 {
                   "name": "resumejson",
                   "type": {
-                    "text": "*"
+                    "text": "ResumeJson"
                   }
                 }
               ],
-              "return": {
-                "type": {
-                  "text": ""
-                }
-              }
+              "privacy": "private"
             },
             {
               "kind": "field",
               "name": "_resumejsonTask",
-              "default": "new Task(this, {\n    task: async ([gist_id, json_url], {signal}) => {\n      if (!this.resumejson && !gist_id && !json_url) {\n        throw new Error('resumejson property, or a gist_id or json_url attribute are required')\n      }\n      let resumejson = {};\n      if (this.resumejson) {\n        resumejson = this.resumejson\n      } else {\n        resumejson = await getResumeJson(gist_id, json_url)\n      }\n      if (!resumejson.basics || !resumejson.basics.name) {\n        throw new Error('`.basics` property and `basics.name` required to generate resume')\n      }\n      return this._resumeGenerate(resumejson);\n    },\n    args: () => [this.gist_id, this.json_url]\n  })"
+              "default": "new Task(this, { task: async ([gist_id, json_url], {signal}) => { if (!this.resumejson && !gist_id && !json_url) { throw new Error('resumejson property, or a gist_id or json_url attribute are required') } let resumejson = {}; if (this.resumejson) { resumejson = this.resumejson } else { resumejson = await getResumeJson(gist_id, json_url) } if (!resumejson.basics || !resumejson.basics.name) { throw new Error('`.basics` property and `basics.name` required to generate resume') } return this._resumeGenerate(resumejson); }, args: () => [this.gist_id, this.json_url] })",
+              "description": "Task to wrap getting the resume.json file or `ResumeJson` object",
+              "privacy": "private"
             },
             {
               "kind": "field",
               "name": "_sectionOrder",
-              "privacy": "public",
+              "privacy": "private",
               "type": {
                 "text": "array"
               },
-              "default": "[\n      'basics',\n      'work',\n      'volunteer',\n      'education',\n      'awards',\n      'certificates',\n      'publications',\n      'skills',\n      'languages',\n      'interests',\n      'references',\n      'projects',\n      'meta'\n    ]"
+              "default": "[ 'basics', 'work', 'volunteer', 'education', 'awards', 'certificates', 'publications', 'skills', 'languages', 'interests', 'references', 'projects', 'meta' ]"
             },
             {
               "kind": "field",
               "name": "_sectionTitles",
-              "privacy": "public",
+              "privacy": "private",
               "type": {
                 "text": "object"
               },
-              "default": "{\n      \"work\": \"Work\",\n      \"volunteer\": \"Volunteer\",\n      \"education\": \"Education\",\n      \"awards\": \"Awards\",\n      \"certificates\": \"Certificates\",\n      \"publications\": \"Publications\",\n      \"skills\": \"Skills\",\n      \"languages\": \"Languages\",\n      \"interests\": \"Interests\",\n      \"references\": \"References\",\n      \"projects\": \"Projects\"\n    }"
+              "default": "{ \"work\": \"Work\", \"volunteer\": \"Volunteer\", \"education\": \"Education\", \"awards\": \"Awards\", \"certificates\": \"Certificates\", \"publications\": \"Publications\", \"skills\": \"Skills\", \"languages\": \"Languages\", \"interests\": \"Interests\", \"references\": \"References\", \"projects\": \"Projects\" }"
             },
             {
               "kind": "field",
@@ -259,7 +278,8 @@
               "privacy": "public",
               "type": {
                 "text": "string"
-              }
+              },
+              "description": "Accepts a string containing styles"
             }
           ],
           "attributes": [

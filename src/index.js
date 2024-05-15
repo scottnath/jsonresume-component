@@ -22,6 +22,8 @@ import {
 import {getResumeJson} from './get-remote-resume.js';
 import style from './style.css?inline' assert { type: 'css' };
 
+/** @typedef {import('jsonresume-theme-microdata/schema.d.ts').ResumeSchema} ResumeJson */
+
 /**
  * @element json-resume
  * 
@@ -112,15 +114,24 @@ export class JsonResume extends LitElement {
       type: Object,
       attribute: false
     },
+    /**
+     * Accepts a string containing styles
+     */
     stylesheet: {
       type: String,
       attribute: false
     },
+    /**
+     * @private
+     */
     _sectionOrder: {
       type: Array,
       attribute: false,
       state: true,
     },
+    /**
+     * @private
+     */
     _sectionTitles: {
       type: Object,
       attribute: false,
@@ -167,6 +178,10 @@ export class JsonResume extends LitElement {
     this.setAttribute('exportparts', parts.join(','));
   }
 
+  /**
+   * Generates a `style` tag with variable component styles 
+   * @private
+   */
   _stylesGenerate = () => {
     return `<style>
       ${this.stylesheet ? this.stylesheet : style}
@@ -181,6 +196,12 @@ export class JsonResume extends LitElement {
     }
   }
 
+  /**
+   * Returns a section of a resume
+   * @param {string} section - name of a JSON Resume section
+   * @param {object} content - content for that section only
+   * @private
+   */
   _resumeSection = (section, content) => {
     return html`
       ${choose(section, [
@@ -207,9 +228,9 @@ export class JsonResume extends LitElement {
   }
 
   /**
-   * 
-   * @param {*} resumejson 
-   * @returns
+   * Generate the resume HTML with the <style> element
+   * @param {ResumeJson} resumejson 
+   * @private
    */
   _resumeGenerate = (resumejson) => {
     if (this.preordered) {
@@ -233,7 +254,10 @@ export class JsonResume extends LitElement {
     </div>`
   }
 
-
+  /**
+   * Task to wrap getting the resume.json file or `ResumeJson` object
+   * @private
+   */
   _resumejsonTask = new Task(this, {
     task: async ([gist_id, json_url], {signal}) => {
       if (!this.resumejson && !gist_id && !json_url) {

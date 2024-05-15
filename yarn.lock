@@ -3430,7 +3430,7 @@
   resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-8.1.1.tgz#f321300cf3c00b224954603d023883522e05531c"
   integrity sha512-l+B8eu3yBZfrHvCR/FVqGyObgA0KSLp+06NkWDMn0p7qu0tCTROquopKdn2gXKitZp8wGwhgJV56OvW5C12XQA==
 
-"@storybook/preview-api@8.1.1":
+"@storybook/preview-api@8.1.1", "@storybook/preview-api@^7.0.0 || ^8.0.0":
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/@storybook/preview-api/-/preview-api-8.1.1.tgz#c7b865607c1fafc0592ffed0fd93c46f9a2e79fc"
   integrity sha512-5EcByqtJgj7a7ZWICMLif8mK3cRmdIMbdSPEDf4X6aTQ8LZOg6updLrkb/Eh6qfeYv46TK/MP8BXa89wfOxWGQ==
@@ -14636,6 +14636,13 @@ watchpack@^2.2.0:
   dependencies:
     glob-to-regexp "^0.4.1"
     graceful-fs "^4.1.2"
+
+wc-storybook-helpers@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/wc-storybook-helpers/-/wc-storybook-helpers-2.0.2.tgz#d80806fc72eea559cbaa02f71edaaf192fee7b4a"
+  integrity sha512-phSSsD3zDonp1uOgwbIqIPGBn1ilKxeeTu/S37M/pPcJ0IYQhUgv1IV2UMX5l5yQHgAVQZX+dwtHuAe0atB9mA==
+  dependencies:
+    "@storybook/preview-api" "^7.0.0 || ^8.0.0"
 
 wcwidth@^1.0.0, wcwidth@^1.0.1:
   version "1.0.1"

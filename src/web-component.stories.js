@@ -4,10 +4,14 @@ import { microdata } from '@cucumber/microdata';
 import { expect } from '@storybook/test';
 import { within as shadowWithin } from 'shadow-dom-testing-library';
 import stylesEven from 'jsonresume-theme-microdata/style.css?inline';
+import { getWcStorybookHelpers } from "wc-storybook-helpers";
+
 import 'profile-components/github-repository';
 
 import resumeLorem from '@/fixtures/lorem.resume.json?raw';
 import './index.js';
+
+const { argTypes } = getWcStorybookHelpers("json-resume");
 
 const resumeFixtureLorem = JSON.parse(resumeLorem);
 delete resumeFixtureLorem.meta.themeOptions;
@@ -28,6 +32,7 @@ ${json.basics.summary}`),
 export default {
   title: 'JsonResume',
   component: 'json-resume',
+  argTypes,
 };
 
 export const GistID = {
