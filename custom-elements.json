@@ -1,0 +1,343 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "JsonResume",
+          "cssProperties": [
+            {
+              "description": "The card border color",
+              "name": "--card-border-color",
+              "default": "#ccc"
+            },
+            {
+              "description": "The card border color",
+              "name": "--card-border-size",
+              "default": "1px"
+            },
+            {
+              "description": "The card border color",
+              "name": "--card-border-style",
+              "default": "solid"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "style the `basics` section",
+              "name": "basics"
+            },
+            {
+              "description": "style the `work` section",
+              "name": "work"
+            },
+            {
+              "description": "style the `volunteer` section",
+              "name": "volunteer"
+            },
+            {
+              "description": "style the `education` section",
+              "name": "education"
+            },
+            {
+              "description": "style the `awards` section",
+              "name": "awards"
+            },
+            {
+              "description": "style the `certificates` section",
+              "name": "certificates"
+            },
+            {
+              "description": "style the `publications` section",
+              "name": "publications"
+            },
+            {
+              "description": "style the `skills` section",
+              "name": "skills"
+            },
+            {
+              "description": "style the `languages` section",
+              "name": "languages"
+            },
+            {
+              "description": "style the `interests` section",
+              "name": "interests"
+            },
+            {
+              "description": "style the `references` section",
+              "name": "references"
+            },
+            {
+              "description": "style the `projects` section",
+              "name": "projects"
+            },
+            {
+              "description": "style the `meta` section",
+              "name": "meta"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Replace the entire `basics` HTML section",
+              "name": "basics"
+            },
+            {
+              "description": "Replace the entire `work` HTML section",
+              "name": "work"
+            },
+            {
+              "description": "Replace the entire `volunteer` HTML section",
+              "name": "volunteer"
+            },
+            {
+              "description": "Replace the entire `education` HTML section",
+              "name": "education"
+            },
+            {
+              "description": "Replace the entire `awards` HTML section",
+              "name": "awards"
+            },
+            {
+              "description": "Replace the entire `certificates` HTML section",
+              "name": "certificates"
+            },
+            {
+              "description": "Replace the entire `publications` HTML section",
+              "name": "publications"
+            },
+            {
+              "description": "Replace the entire `skills` HTML section",
+              "name": "skills"
+            },
+            {
+              "description": "Replace the entire `languages` HTML section",
+              "name": "languages"
+            },
+            {
+              "description": "Replace the entire `interests` HTML section",
+              "name": "interests"
+            },
+            {
+              "description": "Replace the entire `references` HTML section",
+              "name": "references"
+            },
+            {
+              "description": "Replace the entire `projects` HTML section",
+              "name": "projects"
+            },
+            {
+              "description": "Replace the entire `meta` HTML section",
+              "name": "meta"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "_stylesGenerate"
+            },
+            {
+              "kind": "field",
+              "name": "_resumeSection"
+            },
+            {
+              "kind": "field",
+              "name": "_resumeGenerate",
+              "parameters": [
+                {
+                  "name": "resumejson",
+                  "type": {
+                    "text": "*"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "_resumejsonTask",
+              "default": "new Task(this, {\n    task: async ([gist_id, json_url], {signal}) => {\n      if (!this.resumejson && !gist_id && !json_url) {\n        throw new Error('resumejson property, or a gist_id or json_url attribute are required')\n      }\n      let resumejson = {};\n      if (this.resumejson) {\n        resumejson = this.resumejson\n      } else {\n        resumejson = await getResumeJson(gist_id, json_url)\n      }\n      if (!resumejson.basics || !resumejson.basics.name) {\n        throw new Error('`.basics` property and `basics.name` required to generate resume')\n      }\n      return this._resumeGenerate(resumejson);\n    },\n    args: () => [this.gist_id, this.json_url]\n  })"
+            },
+            {
+              "kind": "field",
+              "name": "_sectionOrder",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "default": "[\n      'basics',\n      'work',\n      'volunteer',\n      'education',\n      'awards',\n      'certificates',\n      'publications',\n      'skills',\n      'languages',\n      'interests',\n      'references',\n      'projects',\n      'meta'\n    ]"
+            },
+            {
+              "kind": "field",
+              "name": "_sectionTitles",
+              "privacy": "public",
+              "type": {
+                "text": "object"
+              },
+              "default": "{\n      \"work\": \"Work\",\n      \"volunteer\": \"Volunteer\",\n      \"education\": \"Education\",\n      \"awards\": \"Awards\",\n      \"certificates\": \"Certificates\",\n      \"publications\": \"Publications\",\n      \"skills\": \"Skills\",\n      \"languages\": \"Languages\",\n      \"interests\": \"Interests\",\n      \"references\": \"References\",\n      \"projects\": \"Projects\"\n    }"
+            },
+            {
+              "kind": "field",
+              "name": "gist_id",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "GitHub gist ID. When present, calls the GitHub rest API to fetch a resume.json gist's content.\nChecked first, if gist is present and has a resume.json, `json_url` and `local_file` will be ignored.",
+              "attribute": "gist_id"
+            },
+            {
+              "kind": "field",
+              "name": "json_url",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "URL to a JSON file. When present, used to fetch a resume.json file from the URL.\nChecked second or if gist_id does not have a resume.json, `local_file` will be ignored.",
+              "attribute": "json_url"
+            },
+            {
+              "kind": "field",
+              "name": "local_file",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Path to a local resume.json file",
+              "attribute": "local_file"
+            },
+            {
+              "kind": "field",
+              "name": "preordered",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "When true, sections of resume (basic, work, etc) will be injected according to their order in resume.json",
+              "attribute": "preordered"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "globalizeStyles",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
+              "attribute": "globalize-styles"
+            },
+            {
+              "kind": "field",
+              "name": "resumejson",
+              "privacy": "public",
+              "type": {
+                "text": "object"
+              },
+              "description": "Property accepts a JSON Resume object"
+            },
+            {
+              "kind": "field",
+              "name": "stylesheet",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "gist_id",
+              "type": {
+                "text": "string"
+              },
+              "description": "GitHub gist ID. When present, calls the GitHub rest API to fetch a resume.json gist's content.\nChecked first, if gist is present and has a resume.json, `json_url` and `local_file` will be ignored.",
+              "fieldName": "gist_id"
+            },
+            {
+              "name": "json_url",
+              "type": {
+                "text": "string"
+              },
+              "description": "URL to a JSON file. When present, used to fetch a resume.json file from the URL.\nChecked second or if gist_id does not have a resume.json, `local_file` will be ignored.",
+              "fieldName": "json_url"
+            },
+            {
+              "name": "local_file",
+              "type": {
+                "text": "string"
+              },
+              "description": "Path to a local resume.json file",
+              "fieldName": "local_file"
+            },
+            {
+              "name": "preordered",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "When true, sections of resume (basic, work, etc) will be injected according to their order in resume.json",
+              "fieldName": "preordered"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
+              "fieldName": "label"
+            },
+            {
+              "name": "globalize-styles",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
+              "fieldName": "globalizeStyles"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "json-resume",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "JsonResume",
+          "declaration": {
+            "name": "JsonResume",
+            "module": "src/index.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "json-resume",
+          "declaration": {
+            "name": "JsonResume",
+            "module": "src/index.js"
+          }
+        }
+      ]
+    }
+  ]
+}
