@@ -27,9 +27,6 @@
     "type": "git",
     "url": "git+https://github.com/scottnath/jsonresume-web-component.git"
   },
-  "publishConfig": {
-    "provenance": true
-  },
   "files": [
     "dist",
     "src",

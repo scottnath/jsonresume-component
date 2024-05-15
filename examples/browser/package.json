@@ -1,0 +1,11 @@
+{
+  "name": "jsonresume-web-component-browser-examples",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "servor --reload"
+  },
+  "dependencies": {
+    "servor": "^4.0.2"
+  }
+}
