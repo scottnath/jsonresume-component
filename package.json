@@ -1,5 +1,5 @@
 {
-  "name": "jsonresume-web-component",
+  "name": "jsonresume-component",
   "version": "0.0.0",
   "author": "scottnath",
   "description": "A web component which presents a JSON Resume documented with microdata",
