@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      Scott Nath's Resume
+    </title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.run/lit",
+          "@lit/task": "https://esm.run/@lit/task"
+        }
+      }
+    </script>
+    <script type="module">
+      import 'https://esm.run/jsonresume-component'
+      import resumejson from './lorem.resume.short.json' with { type: 'json' };
+      resumejson.basics.summary = 'This resume gets resume.json from a local file. In your HTML you can get the file using `import resumejson from "./resume.json" with { type: "json" };` and inject it into the component with `document.getElementById("jsonresume").resumejson = resumejson;`';
+
+      const jsonresume = document.getElementById('jsonresume');
+      jsonresume.resumejson = resumejson
+    </script>
+  </head>
+  <body>
+    <json-resume id="jsonresume"></json-resume>
+  </body>
+</html>

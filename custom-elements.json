@@ -140,6 +140,14 @@
               "kind": "field",
               "name": "_stylesGenerate",
               "description": "Generates a `style` tag with variable component styles",
+              "parameters": [
+                {
+                  "name": "resumejson",
+                  "type": {
+                    "text": "ResumeJson"
+                  }
+                }
+              ],
               "privacy": "private"
             },
             {
@@ -260,7 +268,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
+              "description": "When styles are generated internally, repeat them onto the global document (page)\n**WARNING** Completely deletes and overrides page styles",
               "attribute": "globalize-styles"
             },
             {
@@ -279,7 +287,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "Accepts a string containing styles"
+              "description": "Accepts a string containing styles\n**WARNING** Completely deletes and overrides internal component styles"
             }
           ],
           "attributes": [
@@ -328,7 +336,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
+              "description": "When styles are generated internally, repeat them onto the global document (page)\n**WARNING** Completely deletes and overrides page styles",
               "fieldName": "globalizeStyles"
             }
           ],

@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, css, unsafeCSS } from 'lit';
 import {choose} from 'lit/directives/choose.js';
 import {Task} from '@lit/task';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -101,7 +101,8 @@ export class JsonResume extends LitElement {
       attribute: 'label'
     },
     /**
-     * The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`
+     * When styles are generated internally, repeat them onto the global document (page)
+     * **WARNING** Completely deletes and overrides page styles
      */
     globalizeStyles: {
       type: Boolean,
@@ -116,6 +117,7 @@ export class JsonResume extends LitElement {
     },
     /**
      * Accepts a string containing styles
+     * **WARNING** Completely deletes and overrides internal component styles
      */
     stylesheet: {
       type: String,
@@ -179,20 +181,29 @@ export class JsonResume extends LitElement {
   }
 
   /**
-   * Generates a `style` tag with variable component styles 
+   * Generates a `style` tag with variable component styles
+   * @param {ResumeJson} resumejson 
    * @private
    */
-  _stylesGenerate = () => {
-    return `<style>
-      ${this.stylesheet ? this.stylesheet : style}
-    </style>`
-  }
-  
-  firstUpdated() {
+  _stylesGenerate = (resumejson) => {
+    let sheet = new CSSStyleSheet();
+    
+    if (this.stylesheet) {
+      sheet.replaceSync(this.stylesheet);
+    } else {
+      sheet.replaceSync(style)
+    }
+    
+    if (resumejson.meta?.themeOptions?.colors) {
+      const colors = resumejson.meta?.themeOptions?.colors;
+      const props = Object.entries(colors).map(([name, [light, dark = light]]) => `--color-${name}-light:${light}; --color-${name}-dark:${dark};`)
+      .join(' ')
+      sheet.insertRule(`:host, body { ${props} }`, 1)
+    }
+    
+    this.shadowRoot.adoptedStyleSheets = [sheet];
     if (this.globalizeStyles) {
-      const div = document.createElement("div");
-      div.innerHTML = this._stylesGenerate();
-      this.prepend(div.cloneNode(true))
+      document.adoptedStyleSheets = [sheet]
     }
   }
 
@@ -233,7 +244,7 @@ export class JsonResume extends LitElement {
    * @private
    */
   _resumeGenerate = (resumejson) => {
-    if (this.preordered) {
+    if (this.preordered || resumejson.meta?.themeOptions?.preordered) {
       this._sectionOrder = Object.keys(resumejson)
     }
     if (resumejson.meta?.themeOptions?.sectionTitles) {
@@ -247,7 +258,8 @@ export class JsonResume extends LitElement {
       return this._resumeSection(section, resumejson[section])
     })
     const ariaLabel = this.label || `${resumejson.basics.name}'s resume`;
-    return html`${unsafeHTML(this._stylesGenerate())}<div id="jsonresume" itemscope itemtype="https://schema.org/ProfilePage">
+    this._stylesGenerate(resumejson);
+    return html`<div id="jsonresume" itemscope itemtype="https://schema.org/ProfilePage">
       <article part="resume" itemprop="mainEntity" itemscope itemtype="https://schema.org/Person" aria-label="${ariaLabel}">
       ${resumeSections}
       </article>

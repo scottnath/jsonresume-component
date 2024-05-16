@@ -61,7 +61,7 @@
   color: var(--color-primary);
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :host {
     --color-background: var(--color-background-dark);
     --color-dimmed: var(--color-dimmed-dark);
@@ -69,7 +69,7 @@
     --color-secondary: var(--color-secondary-dark);
     --color-link: var(--color-link-dark);
   }
-} */
+}
 
 * {
   box-sizing: border-box;

@@ -66,6 +66,7 @@
     "micromark": "^4.0.0",
     "profile-components": "^0.4.1",
     "storybook": "^8.1.1",
+    "storybook-addon-render-modes": "^0.0.11",
     "storydocker-utilities": "^0.0.21",
     "vite": "5.2.11",
     "vite-plugin-static-copy": "^1.0.4",

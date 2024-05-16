@@ -14,8 +14,8 @@ import './index.js';
 const { argTypes } = getWcStorybookHelpers("json-resume");
 
 const resumeFixtureLorem = JSON.parse(resumeLorem);
+const themeOptions = {...resumeFixtureLorem.meta.themeOptions};
 delete resumeFixtureLorem.meta.themeOptions;
-const resumeFixtureLoremOpts = JSON.parse(resumeLorem);
 
 const changeSummary = (summary, json = resumeFixtureLorem) => {
   return {
@@ -86,7 +86,15 @@ export const SectionOrder = {
 export const SectionTitles = {
   args: {
     resumejson: {
-      ...changeSummary('This resume shows alternate title text for some sections. This can be configured in your `resume.json` file by adding an object to `meta.sectionTitles`. You only need to include the titles you want to change.', resumeFixtureLoremOpts),
+      ...changeSummary('This resume shows alternate title text for some sections. This can be configured in your `resume.json` file by adding an object to `meta.sectionTitles`. You only need to include the titles you want to change.', {
+        ...resumeFixtureLorem,
+        meta: {
+          ...resumeFixtureLorem.meta,
+          themeOptions: {
+            sectionTitles: themeOptions.sectionTitles
+          }
+        }
+      }),
     },
   }
 }
@@ -140,11 +148,25 @@ export const Styling = {
   </div>`]
 }
 
+export const ThemeOptions = {
+  args: {
+    resumejson: {
+      ...changeSummary('This resume shows all theme options, including section titles, preordered, and colors. These are detailed in `jsonresume-theme-microdata`.', {
+        ...resumeFixtureLorem,
+        meta: {
+          ...resumeFixtureLorem.meta,
+          themeOptions
+        }
+      }),
+    },
+  }
+}
+
 export const GlobalizeStyles = {
   render: (args) => 
   html`<h3>I am an H3 outside of the resume</h3><json-resume .resumejson="${args.resumejson}" preordered="${args.preordered}" globalize-styles="${args['globalize-styles']}">
       <section slot="work"><h3>I am a slotted H3 header for the Work section</h3><article><h4>I am a slotted H4</h4></article></section>
-      <section slot="projects"><h3>SLOTTED! Open Source Projects</h3><github-repository full_name="scottnath/profile-components" fetch="true" data-theme="light"></github-repository><github-repository full_name="scottnath/jsonresume-theme-microdata" fetch="true" data-theme="light"></github-repository></section>
+      <section slot="projects"><h3>SLOTTED! Open Source Projects</h3><github-repository full_name="scottnath/profile-components" fetch="true"></github-repository><github-repository full_name="scottnath/jsonresume-theme-microdata" fetch="true"></github-repository></section>
     </json-resume>
   `,
   args: {
