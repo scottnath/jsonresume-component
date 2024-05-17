@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      Scott Nath's Resume
+    </title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.run/lit",
+          "@lit/task": "https://esm.run/@lit/task"
+        }
+      }
+    </script>
+    <script type="module" src="https://unpkg.com/profile-components/dist/github-repository.js"></script>
+    <script type="module">
+      import 'https://esm.run/jsonresume-component'
+      import resumejson from './lorem.resume.short.json' with { type: 'json' };
+      resumejson.basics.summary = 'This resume replaces `work` and `projects` with slotted content. `projects` is using the github-repository component from profile-components to show the projects';
+      const jsonresume = document.getElementById('jsonresume');
+      jsonresume.resumejson = resumejson
+    </script>
+  </head>
+  <body>
+    <json-resume id="jsonresume" preordered="true" globalize-styles="true">
+      <section slot="work">
+        <h3>Work Title from a slot!</h3>
+        <article><h4>I am a slotted H4</h4><section><h5>And this is the slotted H5</h5></section></article>
+        <article><h4>Amazing Company Inc.</h4><section><h5>Super Senior Principal Full-Stack Design Engineering Lead</h5></sectio></article>
+      </section>
+      <section slot="projects">
+        <h3>Open Source Projects</h3>
+        <github-repository full_name="scottnath/profile-components" fetch="true"></github-repository>
+        <github-repository full_name="scottnath/jsonresume-theme-microdata" fetch="true"></github-repository>
+      </section>
+    </json-resume>
+    <script type="module">
+    </script>
+  </body>
+</html>

@@ -1,22 +1,43 @@
 {
-  "name": "jsonresume-web-component",
+  "name": "jsonresume-component",
   "version": "0.0.0",
   "author": "scottnath",
   "description": "A web component which presents a JSON Resume documented with microdata",
-  "homepage": "https://scottnath.github.io/jsonresume-web-component",
+  "homepage": "https://scottnath.github.io/jsonresume-component",
   "bugs": {
-    "url": "https://github.com/scottnath/jsonresume-web-component/issues"
+    "url": "https://github.com/scottnath/jsonresume-component/issues"
   },
   "scripts": {
-    "release": "semantic-release --debug=true"
+    "cem": "custom-elements-manifest analyze --litelement --config 'lib/custom-elements-manifest.config.js'",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "preview-storybook": "storybook dev",
+    "test-storybook": "test-storybook --coverage --url http://localhost:6006",
+    "predist": "npm run cem",
+    "dist": "npm run component",
+    "prerelease": "npm run dist",
+    "release": "semantic-release --debug=true",
+    "test:unit": "node --test --experimental-test-coverage",
+    "generate:docs": "node lib/cli.js generate-docs",
+    "generate": "npm run generate:docs && npm run cem",
+    "component": "vite build -c vite.component.config.js --emptyOutDir false"
   },
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scottnath/jsonresume-web-component.git"
+    "url": "git+https://github.com/scottnath/jsonresume-component.git"
   },
-  "publishConfig": {
-    "provenance": true
+  "files": [
+    "dist",
+    "src",
+    "examples",
+    "custom-elements.json"
+  ],
+  "exports": {
+    ".": "./dist/json-resume.js",
+    "./*": "./dist/*",
+    "./src/*": "./src/*",
+    "./examples/*": "./examples/*"
   },
   "license": "MIT",
   "devDependencies": {
@@ -31,29 +52,30 @@
     "@storybook/addon-links": "^8.1.1",
     "@storybook/blocks": "^8.1.1",
     "@storybook/test": "^8.1.1",
-    "@storybook/test-runner": "^0.18.0",
+    "@storybook/test-runner": "^0.18.1",
     "@storybook/web-components": "^8.1.1",
     "@storybook/web-components-vite": "^8.1.1",
     "chromatic": "^11.3.5",
     "commander": "^12.0.0",
-    "esbuild": "^0.21.2",
+    "esbuild": "^0.21.3",
     "esbuild-plugin-inline-import": "^1.0.4",
     "fs-extra": "^11.2.0",
     "html-validate": "8.18.2",
     "jsdoc-to-markdown": "^8.0.1",
     "json-schema-to-typescript": "14.0.4",
-    "micromark": "^4.0.0",
     "profile-components": "^0.4.1",
     "storybook": "^8.1.1",
+    "storybook-addon-render-modes": "^0.0.11",
     "storydocker-utilities": "^0.0.21",
     "vite": "5.2.11",
     "vite-plugin-static-copy": "^1.0.4",
     "wc-storybook-helpers": "^2.0.2",
     "yaml": "^2.4.2"
   },
+  "customElements": "custom-elements.json",
   "dependencies": {
     "@lit/task": "^1.0.0",
-    "jsonresume-theme-microdata": "^0.0.6-next.7",
+    "jsonresume-theme-microdata": "^0.0.7",
     "lit": "^3.1.3"
   }
 }
