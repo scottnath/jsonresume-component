@@ -1,4 +1,4 @@
-# jsonresume-web-component
+# jsonresume-component
 
 A web component (using LitElement) which presents resume content stored in [JSON Resume][jsonresume] format. The HTML structure uses the components from [jsonresume-theme-microdata][jtm] to generate HTML which includes structured data as microdata in HTML attributes.
 
