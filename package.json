@@ -9,6 +9,7 @@
   },
   "scripts": {
     "cem": "custom-elements-manifest analyze --litelement --config 'lib/custom-elements-manifest.config.js'",
+    "postcem": "node ./lib/cem-readme.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "preview-storybook": "storybook dev",
@@ -77,7 +78,7 @@
   "customElements": "custom-elements.json",
   "dependencies": {
     "@lit/task": "^1.0.0",
-    "jsonresume-theme-microdata": "^0.0.7",
+    "jsonresume-theme-microdata": "^0.1.0",
     "lit": "^3.1.3"
   }
 }

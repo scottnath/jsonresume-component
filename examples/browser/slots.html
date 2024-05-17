@@ -16,7 +16,7 @@
     </script>
     <script type="module" src="https://unpkg.com/profile-components/dist/github-repository.js"></script>
     <script type="module">
-      import 'https://esm.run/jsonresume-component'
+      import 'https://unpkg.com/jsonresume-component'
       import resumejson from './lorem.resume.short.json' with { type: 'json' };
       resumejson.basics.summary = 'This resume replaces `work` and `projects` with slotted content. `projects` is using the github-repository component from profile-components to show the projects';
       const jsonresume = document.getElementById('jsonresume');

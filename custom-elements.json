@@ -233,16 +233,6 @@
             },
             {
               "kind": "field",
-              "name": "local_file",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "description": "Path to a local resume.json file",
-              "attribute": "local_file"
-            },
-            {
-              "kind": "field",
               "name": "preordered",
               "privacy": "public",
               "type": {
@@ -306,14 +296,6 @@
               },
               "description": "URL to a JSON file. When present, used to fetch a resume.json file from the URL.\nChecked second or if gist_id does not have a resume.json, `local_file` will be ignored.",
               "fieldName": "json_url"
-            },
-            {
-              "name": "local_file",
-              "type": {
-                "text": "string"
-              },
-              "description": "Path to a local resume.json file",
-              "fieldName": "local_file"
             },
             {
               "name": "preordered",

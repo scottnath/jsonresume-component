@@ -15,7 +15,7 @@
       }
     </script>
     <script type="module">
-      import 'https://esm.run/jsonresume-component'
+      import 'https://unpkg.com/jsonresume-component'
       import resumejson from './lorem.resume.short.json' with { type: 'json' };
       resumejson.basics.summary = 'This resume gets resume.json from a local file. In your HTML you can get the file using `import resumejson from "./resume.json" with { type: "json" };` and inject it into the component with `document.getElementById("jsonresume").resumejson = resumejson;`';
 
