@@ -21,9 +21,9 @@ import { JsonResume } from 'jsonresume-component/src/index.js';
 
 ## Browser usage
 
-**note:** requires installing `lit` and `@lit/task`.
+### include `lit` dependencies
 
-### Add jsonresume-component and dependencies
+`<json-resume>` uses [`lit`](https://lit.dev) and [`@lit/task`](https://lit.dev/docs/data/task/) which must be imported into your HTML file. You can include dependencies with an [importmap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) like this:
 
 ```html
 <script type="importmap">
@@ -34,6 +34,11 @@ import { JsonResume } from 'jsonresume-component/src/index.js';
     }
   }
 </script>
+```
+
+### Add jsonresume-component
+
+```html
 <script type="module">
   import 'https://esm.run/jsonresume-component'
 </script>

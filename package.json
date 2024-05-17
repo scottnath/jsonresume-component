@@ -34,11 +34,13 @@
     "custom-elements.json"
   ],
   "exports": {
-    ".": "./dist/json-resume.js",
+    ".": "./src/index.js",
     "./*": "./dist/*",
     "./src/*": "./src/*",
     "./examples/*": "./examples/*"
   },
+  "unpkg": "./dist/json-resume.js",
+  "module": "./src/index.js",
   "license": "MIT",
   "devDependencies": {
     "@chromatic-com/storybook": "^1.4.0",
