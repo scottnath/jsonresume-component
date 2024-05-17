@@ -1,5 +1,4 @@
 import { html } from 'lit';
-import {micromark} from 'micromark'
 import { microdata } from '@cucumber/microdata';
 import { expect } from '@storybook/test';
 import { within as shadowWithin } from 'shadow-dom-testing-library';
@@ -22,9 +21,9 @@ const changeSummary = (summary, json = resumeFixtureLorem) => {
     ...json,
     basics: {
       ...json.basics,
-      summary: micromark(`**${summary}**
+      summary: `**${summary}**
 
-${json.basics.summary}`),
+${json.basics.summary}`,
     }
   }
 }
@@ -37,13 +36,13 @@ export default {
 
 export const GistID = {
   args: {
-    gist_id: '9e7a7ceb9425336c6aa08d58afb63b8d'
+    gist_id: '54682f0aa17453d46cdc74bdef3172a3'
   },
 };
 
 export const JsonUrl = {
   args: {
-    json_url: 'https://gist.githubusercontent.com/scottnath/9e7a7ceb9425336c6aa08d58afb63b8d/raw'
+    json_url: 'https://gist.githubusercontent.com/scottnath/54682f0aa17453d46cdc74bdef3172a3/raw/resume.json'
   },
 };
 
@@ -207,6 +206,6 @@ export const BadGist = {
 
 export const BadUrl = {
   args: {
-    json_url: 'https://gist.githubusercontent.com/scottnath/9e7a7ceb9425336c6aa08d58afb63b8d'
+    json_url: 'https://gist.githubusercontent.com/scottnath/54682f0aa17453d46cdc74bdef3172a3'
   },
 };

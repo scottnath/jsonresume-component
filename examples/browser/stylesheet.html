@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Scott Nath's Resume</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.run/lit",
+          "@lit/task": "https://esm.run/@lit/task"
+        }
+      }
+    </script>
+    <script type="module">
+      import 'https://esm.run/jsonresume-component'
+      // imports a stylesheet to a variable
+      import evenTheme from 'https://unpkg.com/jsonresume-theme-microdata@0.0.6-next.9/dist/style.css' with { type: "css" };
+      // converts stylesheet to a string
+      const themeString = Array.from(evenTheme.cssRules).map(rule => rule.cssText).join('\n')
+      // get the json-resume instance
+      const jsonresume = document.getElementById('jsonresume');
+      // configure the stylesheet property
+      jsonresume.stylesheet = themeString
+    </script>
+  </head>
+  <body>
+    <json-resume
+      id="jsonresume"
+      gist_id="54682f0aa17453d46cdc74bdef3172a3"
+    ></json-resume>
+  </body>
+</html>
