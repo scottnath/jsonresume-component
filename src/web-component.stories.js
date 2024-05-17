@@ -29,7 +29,7 @@ ${json.basics.summary}`,
 }
 
 export default {
-  title: 'JsonResume',
+  title: 'jsonresume-component',
   component: 'json-resume',
   argTypes,
 };

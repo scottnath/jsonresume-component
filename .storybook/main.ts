@@ -1,6 +1,12 @@
 import type { StorybookConfig } from '@storybook/web-components-vite'
 import path from 'path'
 
+export const references = {
+  "title": "jsonresume-theme-microdata",
+  "url": "https://6632f42ef9bacea464588c02-tkarrbykzd.chromatic.com/",
+  expanded: false,
+}
+
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
@@ -17,6 +23,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
+  refs: [references],
   async viteFinal(config, options) {
     // Ensures that the cache directory is inside the project directory
     config.cacheDir = path.join(__dirname, '../node_modules/.vite-storybook')
