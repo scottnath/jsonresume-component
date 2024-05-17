@@ -80,13 +80,6 @@ export class JsonResume extends LitElement {
       attribute: 'json_url'
     },
     /**
-     * Path to a local resume.json file
-     */
-    local_file: {
-      type: String,
-      attribute: 'local_file'
-    },
-    /**
      * When true, sections of resume (basic, work, etc) will be injected according to their order in resume.json
      */
     preordered: {

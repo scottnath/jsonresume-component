@@ -59,6 +59,7 @@
   width: 100%;
   background: var(--color-background);
   color: var(--color-primary);
+  padding: var(--spacing);
 }
 
 @media (prefers-color-scheme: dark) {

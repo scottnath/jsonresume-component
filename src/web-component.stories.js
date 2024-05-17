@@ -98,6 +98,17 @@ export const SectionTitles = {
   }
 }
 
+export const Contained = {
+  render: (args) => 
+  html`<div style="margin: 0 auto; width: 100%; max-width: ${args.maxwidth || 52}em;">
+    <json-resume .resumejson="${args.resumejson}" preordered="${args.preordered}"></json-resume></div>
+  `,
+  args: {
+    resumejson: changeSummary('This resume is boxed into a container'),
+    preordered: true,
+  },
+}
+
 export const Slots = {
   render: (args) => 
   html`<json-resume .resumejson="${args.resumejson}" preordered="${args.preordered}">
