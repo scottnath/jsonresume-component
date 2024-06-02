@@ -3,7 +3,7 @@ import path from 'path'
 
 export const references = {
   "title": "jsonresume-theme-microdata",
-  "url": "https://6632f42ef9bacea464588c02-tkarrbykzd.chromatic.com/",
+  "url": "https://main--6632f42ef9bacea464588c02.chromatic.com/",
   expanded: false,
 }
 

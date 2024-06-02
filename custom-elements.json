@@ -4,33 +4,102 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/index.js",
+      "path": "src/ui.js",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "JsonResume",
+          "name": "JsonResumeUI",
           "cssProperties": [
             {
-              "description": "The card border color",
-              "name": "--card-border-color",
-              "default": "#ccc"
+              "description": "Background color, light theme",
+              "name": "--color-background-light"
             },
             {
-              "description": "The card border color",
-              "name": "--card-border-size",
-              "default": "1px"
+              "description": "Dimmed background color, light theme",
+              "name": "--color-dimmed-light"
             },
             {
-              "description": "The card border color",
-              "name": "--card-border-style",
-              "default": "solid"
+              "description": "Primary color, light theme",
+              "name": "--color-primary-light"
+            },
+            {
+              "description": "Secondary color, light theme",
+              "name": "--color-secondary-light"
+            },
+            {
+              "description": "Link color, light theme",
+              "name": "--color-link-light"
+            },
+            {
+              "description": "Background color, dark theme",
+              "name": "--color-background-dark"
+            },
+            {
+              "description": "Dimmed background color, dark theme",
+              "name": "--color-dimmed-dark"
+            },
+            {
+              "description": "Primary color, dark theme",
+              "name": "--color-primary-dark"
+            },
+            {
+              "description": "Secondary color, dark theme",
+              "name": "--color-secondary-dark"
+            },
+            {
+              "description": "Link color, dark theme",
+              "name": "--color-link-dark"
+            },
+            {
+              "description": "Component font size, basis for many `em`-based styles",
+              "name": "--font-size"
+            },
+            {
+              "description": "Component font family",
+              "name": "--font-family"
             }
           ],
           "cssParts": [
             {
+              "description": "resume container",
+              "name": "jsonresume"
+            },
+            {
+              "description": "resume main article",
+              "name": "resume"
+            },
+            {
               "description": "style the `basics` section",
               "name": "basics"
+            },
+            {
+              "description": "person's name, h1",
+              "name": "name"
+            },
+            {
+              "description": "person's title/label, h2",
+              "name": "label"
+            },
+            {
+              "description": "person's image",
+              "name": "image"
+            },
+            {
+              "description": "person's summary",
+              "name": "summary"
+            },
+            {
+              "description": "contacts/locations list within basics",
+              "name": "contact"
+            },
+            {
+              "description": "profiles list within basics",
+              "name": "profiles"
+            },
+            {
+              "description": "styles the `h3` title of all sections",
+              "name": "section-title"
             },
             {
               "description": "style the `work` section",
@@ -137,18 +206,17 @@
           ],
           "members": [
             {
-              "kind": "field",
-              "name": "_stylesGenerate",
-              "description": "Generates a `style` tag with variable component styles",
-              "parameters": [
-                {
-                  "name": "resumejson",
-                  "type": {
-                    "text": "ResumeJson"
-                  }
-                }
-              ],
+              "kind": "method",
+              "name": "_exportparts",
+              "description": "Adds the `exportparts` attribute",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_generatedStyleTag",
+              "description": "Generates a `style` tag with variable component styles",
+              "privacy": "private",
+              "readonly": true
             },
             {
               "kind": "field",
@@ -174,7 +242,7 @@
             },
             {
               "kind": "field",
-              "name": "_resumeGenerate",
+              "name": "_resumeGenerater",
               "description": "Generate the resume HTML with the <style> element",
               "parameters": [
                 {
@@ -184,13 +252,6 @@
                   }
                 }
               ],
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_resumejsonTask",
-              "default": "new Task(this, { task: async ([gist_id, json_url], {signal}) => { if (!this.resumejson && !gist_id && !json_url) { throw new Error('resumejson property, or a gist_id or json_url attribute are required') } let resumejson = {}; if (this.resumejson) { resumejson = this.resumejson } else { resumejson = await getResumeJson(gist_id, json_url) } if (!resumejson.basics || !resumejson.basics.name) { throw new Error('`.basics` property and `basics.name` required to generate resume') } return this._resumeGenerate(resumejson); }, args: () => [this.gist_id, this.json_url] })",
-              "description": "Task to wrap getting the resume.json file or `ResumeJson` object",
               "privacy": "private"
             },
             {
@@ -210,6 +271,498 @@
                 "text": "object"
               },
               "default": "{ \"work\": \"Work\", \"volunteer\": \"Volunteer\", \"education\": \"Education\", \"awards\": \"Awards\", \"certificates\": \"Certificates\", \"publications\": \"Publications\", \"skills\": \"Skills\", \"languages\": \"Languages\", \"interests\": \"Interests\", \"references\": \"References\", \"projects\": \"Projects\" }"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "resumejson",
+              "privacy": "public",
+              "type": {
+                "text": "object"
+              },
+              "description": "Property accepts a JSON Resume object"
+            },
+            {
+              "kind": "field",
+              "name": "stylesheet",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Accepts a string containing styles\n**WARNING** Completely deletes and overrides internal component styles"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "json-resume-ui",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "JsonResumeUI",
+          "declaration": {
+            "name": "JsonResumeUI",
+            "module": "src/ui.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "json-resume-ui",
+          "declaration": {
+            "name": "JsonResumeUI",
+            "module": "src/ui.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "JsonResume",
+          "cssProperties": [
+            {
+              "description": "Background color, light theme",
+              "name": "--color-background-light",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Dimmed background color, light theme",
+              "name": "--color-dimmed-light",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Primary color, light theme",
+              "name": "--color-primary-light",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Secondary color, light theme",
+              "name": "--color-secondary-light",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Link color, light theme",
+              "name": "--color-link-light",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Background color, dark theme",
+              "name": "--color-background-dark",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Dimmed background color, dark theme",
+              "name": "--color-dimmed-dark",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Primary color, dark theme",
+              "name": "--color-primary-dark",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Secondary color, dark theme",
+              "name": "--color-secondary-dark",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Link color, dark theme",
+              "name": "--color-link-dark",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Component font size, basis for many `em`-based styles",
+              "name": "--font-size",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Component font family",
+              "name": "--font-family",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "resume container",
+              "name": "jsonresume",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "resume main article",
+              "name": "resume",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `basics` section",
+              "name": "basics",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "person's name, h1",
+              "name": "name",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "person's title/label, h2",
+              "name": "label",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "person's image",
+              "name": "image",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "person's summary",
+              "name": "summary",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "contacts/locations list within basics",
+              "name": "contact",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "profiles list within basics",
+              "name": "profiles",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "styles the `h3` title of all sections",
+              "name": "section-title",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `work` section",
+              "name": "work",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `volunteer` section",
+              "name": "volunteer",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `education` section",
+              "name": "education",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `awards` section",
+              "name": "awards",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `certificates` section",
+              "name": "certificates",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `publications` section",
+              "name": "publications",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `skills` section",
+              "name": "skills",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `languages` section",
+              "name": "languages",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `interests` section",
+              "name": "interests",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `references` section",
+              "name": "references",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `projects` section",
+              "name": "projects",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "style the `meta` section",
+              "name": "meta",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "description": "Replace the entire `basics` HTML section",
+              "name": "basics",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `work` HTML section",
+              "name": "work",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `volunteer` HTML section",
+              "name": "volunteer",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `education` HTML section",
+              "name": "education",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `awards` HTML section",
+              "name": "awards",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `certificates` HTML section",
+              "name": "certificates",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `publications` HTML section",
+              "name": "publications",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `skills` HTML section",
+              "name": "skills",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `languages` HTML section",
+              "name": "languages",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `interests` HTML section",
+              "name": "interests",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `references` HTML section",
+              "name": "references",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `projects` HTML section",
+              "name": "projects",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "description": "Replace the entire `meta` HTML section",
+              "name": "meta",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "_stylesGenerate",
+              "description": "Generates a `style` tag with variable component styles",
+              "parameters": [
+                {
+                  "name": "resumejson",
+                  "type": {
+                    "text": "ResumeJson"
+                  }
+                }
+              ],
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_resumeGenerate",
+              "description": "Generate the resume HTML with the <style> element",
+              "parameters": [
+                {
+                  "name": "resumejson",
+                  "type": {
+                    "text": "ResumeJson"
+                  }
+                }
+              ],
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_resumejsonTask",
+              "default": "new Task(this, { task: async ([gist_id, json_url], {signal}) => { if (!this.resumejson && !gist_id && !json_url) { throw new Error('resumejson property, or a gist_id or json_url attribute are required') } let resumejson = {}; if (this.resumejson) { resumejson = this.resumejson } else { resumejson = await getResumeJson(gist_id, json_url) } if (!resumejson.basics || !resumejson.basics.name) { throw new Error('`.basics` property and `basics.name` required to generate resume') } console.log(resumejson) return this._resumeGenerate(resumejson); }, args: () => [this.gist_id, this.json_url] })",
+              "description": "Task to wrap getting the resume.json file or `ResumeJson` object",
+              "privacy": "private"
             },
             {
               "kind": "field",
@@ -242,6 +795,97 @@
               "attribute": "preordered"
             },
             {
+              "kind": "method",
+              "name": "_exportparts",
+              "description": "Adds the `exportparts` attribute",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "_generatedStyleTag",
+              "description": "Generates a `style` tag with variable component styles",
+              "privacy": "private",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "_resumeSection",
+              "description": "Returns a section of a resume",
+              "parameters": [
+                {
+                  "description": "name of a JSON Resume section",
+                  "name": "section",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "description": "content for that section only",
+                  "name": "content",
+                  "type": {
+                    "text": "object"
+                  }
+                }
+              ],
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "_resumeGenerater",
+              "description": "Generate the resume HTML with the <style> element",
+              "parameters": [
+                {
+                  "name": "resumejson",
+                  "type": {
+                    "text": "ResumeJson"
+                  }
+                }
+              ],
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "_sectionOrder",
+              "privacy": "private",
+              "type": {
+                "text": "array"
+              },
+              "default": "[ 'basics', 'work', 'volunteer', 'education', 'awards', 'certificates', 'publications', 'skills', 'languages', 'interests', 'references', 'projects', 'meta' ]",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "_sectionTitles",
+              "privacy": "private",
+              "type": {
+                "text": "object"
+              },
+              "default": "{ \"work\": \"Work\", \"volunteer\": \"Volunteer\", \"education\": \"Education\", \"awards\": \"Awards\", \"certificates\": \"Certificates\", \"publications\": \"Publications\", \"skills\": \"Skills\", \"languages\": \"Languages\", \"interests\": \"Interests\", \"references\": \"References\", \"projects\": \"Projects\" }",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
+            },
+            {
               "kind": "field",
               "name": "label",
               "privacy": "public",
@@ -249,17 +893,11 @@
                 "text": "string"
               },
               "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "globalizeStyles",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "When styles are generated internally, repeat them onto the global document (page)\n**WARNING** Completely deletes and overrides page styles",
-              "attribute": "globalize-styles"
+              "attribute": "label",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
             },
             {
               "kind": "field",
@@ -268,7 +906,11 @@
               "type": {
                 "text": "object"
               },
-              "description": "Property accepts a JSON Resume object"
+              "description": "Property accepts a JSON Resume object",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
             },
             {
               "kind": "field",
@@ -277,7 +919,11 @@
               "type": {
                 "text": "string"
               },
-              "description": "Accepts a string containing styles\n**WARNING** Completely deletes and overrides internal component styles"
+              "description": "Accepts a string containing styles\n**WARNING** Completely deletes and overrides internal component styles",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
             }
           ],
           "attributes": [
@@ -311,20 +957,16 @@
                 "text": "string"
               },
               "description": "The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`",
-              "fieldName": "label"
-            },
-            {
-              "name": "globalize-styles",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "When styles are generated internally, repeat them onto the global document (page)\n**WARNING** Completely deletes and overrides page styles",
-              "fieldName": "globalizeStyles"
+              "fieldName": "label",
+              "inheritedFrom": {
+                "name": "JsonResumeUI",
+                "module": "src/ui.js"
+              }
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "JsonResumeUI",
+            "module": "/src/ui.js"
           },
           "tagName": "json-resume",
           "customElement": true
