@@ -2,17 +2,23 @@ import { defineConfig } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig(({ mode }) => {
+  let entry = {
+    'json-resume': './src/index.js',
+  }
+  if (mode === 'dsd') {
+    entry = {
+      'json-resume-ui': './src/ui.js'
+    }
+  }
   return {
     build: {
       copyPublicDir: false,
       lib: {
-        entry: './src/index.js',
-        fileName: 'json-resume',
         formats: ['es'],
-        name: 'jsonresumeWebComponent',
+        entry
       },
       rollupOptions: {
-        external: ['lit', '@lit/task', /^node:.*/],
+        external: ['lit', '@lit/task'],
       },
       target: 'esnext',
     },

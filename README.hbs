@@ -1,6 +1,10 @@
 # jsonresume-component
 
-`<json-resume>` is a web component (using LitElement) which presents resume content stored in [JSON Resume][jsonresume] format. The HTML structure uses the components from [jsonresume-theme-microdata][jtm] to generate HTML which includes structured data as microdata in HTML attributes.
+`<json-resume>` is a web component (using LitElement) which presents resume content stored in [JSON Resume][jsonresume] format. The HTML structure uses the components from [jsonresume-theme-microdata][jtm] to generate HTML which includes structured data as microdata in HTML attributes. 
+
+`<json-resume>` extends `<json-resume-ui>` (included in the NPM release and this repo), which can be used in server-side rendering situations to generate a declarative shadow DOM containing the resume HTML and styles.
+  
+Check out [the storybook for `jsonresume-component`](https://main--6632f42ef9bacea464588c02.chromatic.com) to play with both components.
 
 
 ## NPM / Node.js usage
@@ -11,12 +15,30 @@
 npm i jsonresume-component
 ```
 
+### Resume from Gist ID
+
 ```javascript
-import { JsonResume } from 'jsonresume-component/src/index.js';
+import { JsonResume } from 'jsonresume-component';
 ```
 
 ```html
 <JsonResume gist_id="9e7a7ceb9425336c6aa08d58afb63b8d"></JsonResume>
+```
+
+### Declarative Shadow DOM
+
+You can generate the HTML on the server using the `<json-resume-ui>` component.
+
+```javascript
+import { JsonResumeUI } from 'jsonresume-component/ui';
+// your resume data
+import resumejson from '../local/path/to/resume.json'
+// you can use your own stylesheet instead of the bundled one
+import styles from 'jsonresume-component/style.css?inline'
+```
+
+```html
+<JsonResumeUI resumejson={resumejson} stylesheet={styles}></JsonResumeUI>
 ```
 
 ## Browser usage

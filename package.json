@@ -16,12 +16,14 @@
     "test-storybook": "test-storybook",
     "predist": "npm run cem",
     "dist": "npm run component",
+    "postdist": "npm run dsd",
     "prerelease": "npm run dist",
     "release": "semantic-release --debug=true",
     "test:unit": "node --test --experimental-test-coverage",
     "generate:docs": "node lib/cli.js generate-docs",
     "generate": "npm run generate:docs && npm run cem",
-    "component": "vite build -c vite.component.config.js --emptyOutDir false"
+    "component": "vite build -c vite.component.config.js --emptyOutDir false",
+    "dsd": "vite build -c vite.component.config.js --mode=dsd --emptyOutDir false"
   },
   "type": "module",
   "repository": {
