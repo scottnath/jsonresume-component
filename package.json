@@ -61,12 +61,12 @@
     "@storybook/test-runner": "^0.18.2",
     "@storybook/web-components": "^8.1.5",
     "@storybook/web-components-vite": "^8.1.5",
-    "chromatic": "^11.5.0",
+    "chromatic": "^11.5.1",
     "commander": "^12.1.0",
     "esbuild": "^0.21.4",
     "esbuild-plugin-inline-import": "^1.0.4",
     "fs-extra": "^11.2.0",
-    "html-validate": "8.19.1",
+    "html-validate": "8.20.0",
     "jsdoc-to-markdown": "^8.0.1",
     "json-schema-to-typescript": "14.0.5",
     "profile-components": "^0.4.1",
@@ -80,8 +80,8 @@
   },
   "customElements": "custom-elements.json",
   "dependencies": {
-    "@lit/task": "^1.0.0",
+    "@lit/task": "^1.0.1",
     "jsonresume-theme-microdata": "^0.2.0",
-    "lit": "^3.1.3"
+    "lit": "^3.1.4"
   }
 }
