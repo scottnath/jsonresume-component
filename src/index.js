@@ -1,26 +1,10 @@
-import { LitElement, html, css, unsafeCSS } from 'lit';
-import {choose} from 'lit/directives/choose.js';
+import { html } from 'lit';
 import {Task} from '@lit/task';
-import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-
-import {
-  Awards,
-  Basics,
-  Certificates,
-  Education,
-  Interests,
-  Languages,
-  Meta,
-  Projects,
-  Publications,
-  References,
-  Skills,
-  Volunteer,
-  Work
-} from 'jsonresume-theme-microdata/components.js';
 
 import {getResumeJson} from './get-remote-resume.js';
 import style from './style.css?inline' assert { type: 'css' };
+
+import { JsonResumeUI } from "./ui.js";
 
 /** @typedef {import('jsonresume-theme-microdata/schema.d.ts').ResumeSchema} ResumeJson */
 
@@ -41,7 +25,16 @@ import style from './style.css?inline' assert { type: 'css' };
  * @slot projects - Replace the entire `projects` HTML section
  * @slot meta - Replace the entire `meta` HTML section
  * 
+ * @csspart jsonresume - resume container
+ * @csspart resume - resume main article
  * @csspart basics - style the `basics` section
+ * @csspart name - person's name, h1
+ * @csspart label - person's title/label, h2
+ * @csspart image - person's image
+ * @csspart summary - person's summary
+ * @csspart contact - contacts/locations list within basics
+ * @csspart profiles - profiles list within basics
+ * @csspart section-title - styles the `h3` title of all sections
  * @csspart work - style the `work` section
  * @csspart volunteer - style the `volunteer` section
  * @csspart education - style the `education` section
@@ -55,13 +48,20 @@ import style from './style.css?inline' assert { type: 'css' };
  * @csspart projects - style the `projects` section
  * @csspart meta - style the `meta` section
  *
- * @cssprop [--card-border-color=#ccc] - The card border color
- * @cssprop [--card-border-size=1px] - The card border color
- * @cssprop [--card-border-style=solid] - The card border color
- * 
- * @todo no validator, so add warning with links to validate resume.json
+ * @cssprop [--color-background-light] - Background color, light theme
+ * @cssprop [--color-dimmed-light] - Dimmed background color, light theme
+ * @cssprop [--color-primary-light] - Primary color, light theme
+ * @cssprop [--color-secondary-light] - Secondary color, light theme
+ * @cssprop [--color-link-light] - Link color, light theme
+ * @cssprop [--color-background-dark] - Background color, dark theme
+ * @cssprop [--color-dimmed-dark] - Dimmed background color, dark theme
+ * @cssprop [--color-primary-dark] - Primary color, dark theme
+ * @cssprop [--color-secondary-dark] - Secondary color, dark theme
+ * @cssprop [--color-link-dark] - Link color, dark theme
+ * @cssprop [--font-size] - Component font size, basis for many `em`-based styles
+ * @cssprop [--font-family] - Component font family
  */
-export class JsonResume extends LitElement {
+export class JsonResume extends JsonResumeUI {
   static properties = {
     /**
      * GitHub gist ID. When present, calls the GitHub rest API to fetch a resume.json gist's content.
@@ -86,92 +86,7 @@ export class JsonResume extends LitElement {
       type: Boolean,
       attribute: 'preordered',
     },
-    /**
-     * The aria-label for the `div` containing the resume. Defaults to `${basics.name}'s resume`
-     */
-    label: {
-      type: String,
-      attribute: 'label'
-    },
-    /**
-     * When styles are generated internally, repeat them onto the global document (page)
-     * **WARNING** Completely deletes and overrides page styles
-     */
-    globalizeStyles: {
-      type: Boolean,
-      attribute: 'globalize-styles'
-    },
-    /**
-     * Property accepts a JSON Resume object
-     */
-    resumejson: {
-      type: Object,
-      attribute: false
-    },
-    /**
-     * Accepts a string containing styles
-     * **WARNING** Completely deletes and overrides internal component styles
-     */
-    stylesheet: {
-      type: String,
-      attribute: false
-    },
-    /**
-     * @private
-     */
-    _sectionOrder: {
-      type: Array,
-      attribute: false,
-      state: true,
-    },
-    /**
-     * @private
-     */
-    _sectionTitles: {
-      type: Object,
-      attribute: false,
-      state: true,
-    }
   };
-
-  constructor() {
-    super();
-    this._sectionOrder = [
-      'basics',
-      'work',
-      'volunteer',
-      'education',
-      'awards',
-      'certificates',
-      'publications',
-      'skills',
-      'languages',
-      'interests',
-      'references',
-      'projects',
-      'meta'
-    ];
-    this._sectionTitles = {
-      "work": "Work",
-      "volunteer": "Volunteer",
-      "education": "Education",
-      "awards": "Awards",
-      "certificates": "Certificates",
-      "publications": "Publications",
-      "skills": "Skills",
-      "languages": "Languages",
-      "interests": "Interests",
-      "references": "References",
-      "projects": "Projects"
-    }
-  }
-  
-  connectedCallback() {
-    super.connectedCallback();
-    const parts = this._sectionOrder;
-    parts.push('contact', 'profiles');
-    this.setAttribute('exportparts', parts.join(','));
-  }
 
   /**
    * Generates a `style` tag with variable component styles
@@ -195,70 +110,33 @@ export class JsonResume extends LitElement {
     }
     
     this.shadowRoot.adoptedStyleSheets = [sheet];
-    if (this.globalizeStyles) {
-      document.adoptedStyleSheets = [sheet]
-    }
-  }
-
-  /**
-   * Returns a section of a resume
-   * @param {string} section - name of a JSON Resume section
-   * @param {object} content - content for that section only
-   * @private
-   */
-  _resumeSection = (section, content) => {
-    return html`
-      ${choose(section, [
-        ['basics', () => html`<slot name="basics">
-          ${unsafeHTML(Basics(content))}
-        </slot>`],
-        ['work', () => html`<slot name="work">
-          ${unsafeHTML(Work(content, this._sectionTitles[section]))}
-        </slot>`],
-        ['volunteer', () => html`<slot name="volunteer">${unsafeHTML(Volunteer(content, this._sectionTitles[section]))}</slot>`],
-        ['education', () => html`<slot name="education">${unsafeHTML(Education(content, this._sectionTitles[section]))}</slot>`],
-        ['awards', () => html`<slot name="awards">${unsafeHTML(Awards(content, this._sectionTitles[section]))}</slot>`],
-        ['certificates', () => html`<slot name="certificates">${unsafeHTML(Certificates(content, this._sectionTitles[section]))}</slot>`],
-        ['publications', () => html`<slot name="publications">${unsafeHTML(Publications(content, this._sectionTitles[section]))}</slot>`],
-        ['skills', () => html`<slot name="skills">${unsafeHTML(Skills(content, this._sectionTitles[section]))}</slot>`],
-        ['languages', () => html`<slot name="languages">${unsafeHTML(Languages(content, this._sectionTitles[section]))}</slot>`],
-        ['interests', () => html`<slot name="interests">${unsafeHTML(Interests(content, this._sectionTitles[section]))}</slot>`],
-        ['references', () => html`<slot name="references">${unsafeHTML(References(content, this._sectionTitles[section]))}</slot>`],
-        ['projects', () => html`<slot name="projects">${unsafeHTML(Projects(content, this._sectionTitles[section]))}</slot>`],
-        ['meta', () => html`<slot name="meta">${unsafeHTML(Meta(content))}</slot>`],
-      ],
-      () => html``)}
-    `;
   }
 
   /**
    * Generate the resume HTML with the <style> element
-   * @param {ResumeJson} resumejson 
+   * @param {ResumeJson} resumejson
    * @private
    */
   _resumeGenerate = (resumejson) => {
-    if (this.preordered || resumejson.meta?.themeOptions?.preordered) {
-      this._sectionOrder = Object.keys(resumejson)
+    const rj = {
+      ...resumejson,
     }
-    if (resumejson.meta?.themeOptions?.sectionTitles) {
-      this._sectionTitles = {
-        ...this._sectionTitles,
-        ...resumejson.meta?.themeOptions?.sectionTitles
+
+    if (this.preordered || rj.meta?.themeOptions?.preordered) {
+      this._sectionOrder = Object.keys(rj)
+      rj.meta = {
+        ...resumejson.meta,
+        themeOptions: {
+          ...resumejson.meta?.themeOptions,
+          preordered: true,
+        }
       }
     }
-    const resumeSections = this._sectionOrder.map((section) => {
-      if (!resumejson[section]) return;
-      return this._resumeSection(section, resumejson[section])
-    })
-    const ariaLabel = this.label || `${resumejson.basics.name}'s resume`;
-    this._stylesGenerate(resumejson);
-    return html`<div id="jsonresume" itemscope itemtype="https://schema.org/ProfilePage">
-      <article part="resume" itemprop="mainEntity" itemscope itemtype="https://schema.org/Person" aria-label="${ariaLabel}">
-      ${resumeSections}
-      </article>
-    </div>`
+    const ariaLabel = this.label || `${rj.basics.name}'s resume`;
+    this._stylesGenerate(rj);
+    console.log('meow', resumejson)
+    return this._resumeGenerater(resumejson)
   }
-
   /**
    * Task to wrap getting the resume.json file or `ResumeJson` object
    * @private
@@ -277,6 +155,7 @@ export class JsonResume extends LitElement {
       if (!resumejson.basics || !resumejson.basics.name) {
         throw new Error('`.basics` property and `basics.name` required to generate resume')
       }
+      console.log(resumejson)
       return this._resumeGenerate(resumejson);
     },
     args: () => [this.gist_id, this.json_url]

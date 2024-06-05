@@ -7,10 +7,11 @@ import { getWcStorybookHelpers } from "wc-storybook-helpers";
 
 import 'profile-components/github-repository';
 
+import style from './style.css?inline';
 import resumeLorem from '@/fixtures/lorem.resume.json?raw';
-import './index.js';
+import './ui.js';
 
-const { argTypes } = getWcStorybookHelpers("json-resume");
+const { argTypes } = getWcStorybookHelpers("json-resume-ui");
 
 const resumeFixtureLorem = JSON.parse(resumeLorem);
 const themeOptions = {...resumeFixtureLorem.meta.themeOptions};
@@ -29,34 +30,22 @@ ${json.basics.summary}`,
 }
 
 export default {
-  title: 'json-resume',
-  component: 'json-resume',
+  title: 'json-resume-ui',
+  component: 'json-resume-ui',
   argTypes,
 };
 
-export const GistID = {
-  args: {
-    gist_id: '54682f0aa17453d46cdc74bdef3172a3'
-  },
-};
-
-export const JsonUrl = {
-  args: {
-    json_url: 'https://gist.githubusercontent.com/scottnath/54682f0aa17453d46cdc74bdef3172a3/raw/resume.json'
-  },
-};
-
-export const MeowJSON = {
+export const ResumeJSON = {
   args: {
     resumejson: resumeFixtureLorem,
+    stylesheet: style,
   },
   play: async ({ args, canvasElement, step }) => {
     const ariaLabel = args.label || `${resumeFixtureLorem.basics.name}'s resume`;
     const screen = shadowWithin(canvasElement);
     const container = await screen.findByShadowLabelText(ariaLabel);
-    console.log(container.getRootNode())
     const ppData = microdata('https://schema.org/ProfilePage', container.getRootNode())
-    console.log(ppData)
+    
     expect(ppData['@type']).toBe('ProfilePage');
     expect(ppData.mainEntity.name).toBe(resumeFixtureLorem.basics.name)
     expect(ppData.mainEntity.email).toBe(resumeFixtureLorem.basics.email)
@@ -77,8 +66,18 @@ export const ThemeEven = {
 
 export const SectionOrder = {
   args: {
-    resumejson: changeSummary('This resume determines the order of the sections according to how they are ordered in the JSON file. This requires adding the attribute `preordered` as in `<json-resume preordered="true"...`'),
-    preordered: true,
+    resumejson: {
+      ...changeSummary('This resume determines the order of the sections according to how they are ordered in the JSON file. This requires adding the attribute `preordered` as in `<json-resume preordered="true"...`', {
+        ...resumeFixtureLorem,
+        meta: {
+          ...resumeFixtureLorem.meta,
+          themeOptions: {
+            preordered: true,
+          }
+        }
+      }),
+    },
+    stylesheet: style,
   }
 }
 
@@ -95,42 +94,50 @@ export const SectionTitles = {
         }
       }),
     },
+    stylesheet: style,
   }
 }
 
 export const Contained = {
   render: (args) => 
   html`<div style="margin: 0 auto; width: 100%; max-width: ${args.maxwidth || 52}em;">
-    <json-resume .resumejson="${args.resumejson}" preordered="${args.preordered}"></json-resume></div>
+    <json-resume .resumejson="${args.resumejson}"></json-resume></div>
   `,
   args: {
     resumejson: changeSummary('This resume is boxed into a container'),
-    preordered: true,
   },
 }
 
 export const Slots = {
   render: (args) => 
-  html`<json-resume .resumejson="${args.resumejson}" preordered="${args.preordered}">
+  html`<json-resume .resumejson="${args.resumejson}">
       <section slot="work"><h3>I am a slotted H3 header for the Work section</h3><article><h4>I am a slotted H4</h4></article></section>
       <section slot="projects"><h3>Open Source Projects</h3><github-repository full_name="scottnath/profile-components" fetch="true" data-theme="light"></github-repository><github-repository full_name="scottnath/jsonresume-theme-microdata" fetch="true" data-theme="light"></github-repository></section>
     </json-resume>
   `,
   args: {
     resumejson: changeSummary('This resume replaces individual sections using `slots`. There is a slot for every JSON Resume section. In this example, `work` is replaced with a similar HTML structure, but `projects` is replaced with a series of web components. The slotted content does not get styling from the web component.'),
-    preordered: true,
   },
 }
 
 export const Styling = {
   render: (args) => 
-  html`<json-resume .resumejson="${args.resumejson}" preordered="${args.preordered}">
+  html`<json-resume .resumejson="${args.resumejson}">
       <section slot="work"><h3>My Work as a Meow</h3><article><h4>Job Title Meow</h4></article></section>
     </json-resume>
   `,
   args: {
-    resumejson: changeSummary('This resume has its styles adjusted using CSS custom properties and CSS shadow parts via `::part()`'),
-    preordered: true,
+    resumejson: {
+      ...changeSummary('This resume has its styles adjusted using CSS custom properties and CSS shadow parts via `::part()`', {
+        ...resumeFixtureLorem,
+        meta: {
+          ...resumeFixtureLorem.meta,
+          themeOptions: {
+            preordered: true,
+          }
+        }
+      }),
+    },
   },
   decorators: [(story) => html`<div>
     <style>
@@ -189,6 +196,7 @@ export const Styling = {
 
 export const ThemeOptions = {
   args: {
+    stylesheet: style,
     resumejson: {
       ...changeSummary('This resume shows all theme options, including section titles, preordered, and colors. These are detailed in `jsonresume-theme-microdata`.', {
         ...resumeFixtureLorem,
@@ -201,37 +209,11 @@ export const ThemeOptions = {
   }
 }
 
-export const Stylesheet = {
+export const NoStyles = {
   args: {
-    resumejson: changeSummary('This resume replaces the default styles using the `stylesheet` property. You can add an entire stylesheet, but here just a few styles were added. This will **completely override** the default styles.'),
-    stylesheet: `
-      :host {
-        font-family: 'Comic Sans MS'
-      }
-      [itemscope]#jsonresume > article {
-        background: green;
-        color: yellow;
-      }
-      [part="basics"] [itemprop="description"] {
-        font-size: 3em;
-      }
-    `,
-    preordered: true
+    resumejson: changeSummary('This resume has no stylesheet'),
   },
-}
-
+};
 
 export const NoAttr = {
-};
-
-export const BadGist = {
-  args: {
-    gist_id: '12345'
-  },
-};
-
-export const BadUrl = {
-  args: {
-    json_url: 'https://gist.githubusercontent.com/scottnath/54682f0aa17453d46cdc74bdef3172a3'
-  },
 };

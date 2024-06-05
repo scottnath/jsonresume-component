@@ -1,4 +1,4 @@
-:host, body {
+:host {
   color-scheme: light dark;
 
   --color-background-light: #ffffff; /* White */
@@ -45,22 +45,9 @@
   --svg-user: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>');
 
   --svg-network: var(--svg-user);
-
-  /* start of styles */
-  line-height: 1.25;
-  color: var(--color-normal);
-  font-family: var(--font-family);
-  font-size: var(--font-size);
-  font-weight: var(--font-weight-normal);
-  /* set up container queries */
-  container-type: inline-size;
-  container-name: resume;
-  display: inline-block;
-  width: 100%;
-  background: var(--color-background);
-  color: var(--color-primary);
-  padding: var(--spacing);
 }
+
+/*theme-options*/
 
 @media (prefers-color-scheme: dark) {
   :host {
@@ -79,7 +66,22 @@
   margin-inline: 0;
 }
 
-[itemscope]#jsonresume > article {
+[part="jsonresume"] {
+  container-type: inline-size;
+  container-name: resume;
+  display: inline-block;
+  width: 100%;
+  background: var(--color-background);
+  padding: var(--spacing);
+}
+
+[part="resume"] {
+  line-height: 1.25;
+  background: var(--color-background);
+  color: var(--color-primary);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight-normal);
   max-width: 51em;
   margin: 0 auto;
   position: relative;
