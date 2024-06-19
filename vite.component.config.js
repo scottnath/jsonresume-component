@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
         entry
       },
       rollupOptions: {
-        external: ['lit', '@lit/task'],
+        external: ['lit', 'lit/directives/choose.js', 'lit/directives/unsafe-html.js', '@lit/task'],
       },
       target: 'esnext',
     },
